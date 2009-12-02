@@ -7,15 +7,13 @@
 #----------------------------------------------------------------------------
 
 # Add a library target to the build system
-boost_library_project(
-  algorithm
+ryppl_library_project(
+  boost.algorithm
   #  SRCDIRS 
   TESTDIRS  minmax/test string/test
   EXAMPLEDIRS minmax/example string/example
-  HEADERS algorithm
   #  DOCDIRS 
   DESCRIPTION  "A library of various algorithms."
-  MODULARIZED
   AUTHORS  "Pavol Droba <droba -at- topmail.sk>"
            "Herve Bronnimann <hbr -at- poly.edu>"
   #  MAINTAINERS 
