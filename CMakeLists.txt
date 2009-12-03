@@ -17,4 +17,4 @@ ryppl_library_project(
   AUTHORS  "Pavol Droba <droba -at- topmail.sk>"
            "Herve Bronnimann <hbr -at- poly.edu>"
   #  MAINTAINERS 
-)
+VERSION 1.41.0)
