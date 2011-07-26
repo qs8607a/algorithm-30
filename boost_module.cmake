@@ -1,11 +1,13 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
-cmake_minimum_required(VERSION 2.8)
-
-find_package(Boost
-  COMPONENTS
-    bind
+boost_module(Algorithm
+  AUTHORS
+    "Pavol Droba <droba -at- topmail.sk>"
+    "Herve Bronnimann <hbr -at- poly.edu>"
+  DESCRIPTION
+    "A library of various algorithms."
+  DEPENDS
     concept_check
     config
     detail
@@ -14,15 +16,7 @@ find_package(Boost
     mpl
     range
     regex
-    test
-    timer
     tuple
     type_traits
     utility
-  NO_MODULE
-  )
-include("${Boost_DEV_FILE}")
-
-boost_add_headers(
-  include/boost/algorithm
   )
