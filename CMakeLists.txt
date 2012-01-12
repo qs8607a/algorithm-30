@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 
 find_package(Boost
   COMPONENTS
+    array
     bind
     concept_check
     config
@@ -14,8 +15,10 @@ find_package(Boost
     mpl
     range
     regex
+    static_assert
     test
     timer
+    tr1
     tuple
     type_traits
     utility
