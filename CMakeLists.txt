@@ -10,6 +10,7 @@ find_package(Boost
     concept_check
     config
     detail
+    exception
     function
     iterator
     mpl
