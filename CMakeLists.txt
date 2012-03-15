@@ -9,7 +9,7 @@ find_package(Boost
     bind
     concept_check
     config
-    detail
+    core
     exception
     function
     iterator
