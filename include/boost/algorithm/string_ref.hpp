@@ -16,6 +16,7 @@
 #define BOOST_STRING_REF_HPP
 
 #include <boost/config.hpp>
+#include <boost/detail/workaround.hpp>
 
 #include <stdexcept>
 #include <algorithm>
@@ -28,7 +29,7 @@
 namespace boost {
     
     namespace detail {
-    //  A helper functor for when we don't have lambdas
+    //  A helper functor because sometimes we don't have lambdas
         template <typename charT, typename traits>
         class string_ref_traits_eq {
         public:
@@ -89,11 +90,6 @@ namespace boost {
         BOOST_CONSTEXPR basic_string_ref(const charT* str, size_type len)
             : ptr_(str), len_(len) {}
 
-#ifndef BOOST_NO_CXX11_HDR_INITIALIZER_LIST
-//  !! How do I do this? Look how initializer_lists work!
-        basic_string_ref(std::initializer_list<charT> il);  // TODO
-#endif
-
 #ifndef BOOST_NO_CXX11_EXPLICIT_CONVERSION_OPERATORS
         template<typename Allocator>
         explicit operator std::basic_string<charT, traits, Allocator>() const {
@@ -149,11 +145,16 @@ namespace boost {
         // basic_string_ref string operations
         BOOST_CONSTEXPR
         basic_string_ref substr(size_type pos, size_type n=npos) const {
-//          if ( pos > size()) throw std::out_of_range ( "string_ref::substr" );
-//          if ( n == npos || pos + n > size()) n = size () - pos;
-//          return basic_string_ref ( data() + pos, n );
+#if BOOST_WORKAROUND(BOOST_MSVC, <= 1600)
+            // Looks like msvc 8 and 9 have a codegen bug when one branch of
+            // a conditional operator is a throw expression. -EAN 2012/12/04
+            if ( pos > size()) throw std::out_of_range ( "string_ref::substr" );
+            if ( n == npos || pos + n > size()) n = size () - pos;
+            return basic_string_ref ( data() + pos, n );
+#else
             return pos > size() ? throw std::out_of_range ( "string_ref::substr" ) :
                 basic_string_ref ( data() + pos, n == npos || pos + n > size() ? size() - pos : n );
+#endif
             }
         
         int compare(basic_string_ref x) const {
@@ -180,13 +181,8 @@ namespace boost {
             }
         
         size_type find(charT c) const {
-#ifdef BOOST_NO_CXX11_LAMBDAS
             const_iterator iter = std::find_if ( this->cbegin (), this->cend (), 
                                     detail::string_ref_traits_eq<charT, traits> ( c ));
-#else
-            const_iterator iter = std::find_if ( this->cbegin (), this->cend (), 
-                                    [c] ( charT val ) { return traits::eq ( c, val ); } );
-#endif
             return iter == this->cend () ? npos : std::distance ( this->cbegin (), iter );
             }
                         
@@ -197,13 +193,8 @@ namespace boost {
             }
 
         size_type rfind(charT c) const {
-#ifdef BOOST_NO_CXX11_LAMBDAS
             const_reverse_iterator iter = std::find_if ( this->crbegin (), this->crend (), 
                                     detail::string_ref_traits_eq<charT, traits> ( c ));
-#else
-            const_reverse_iterator iter = std::find_if ( this->crbegin (), this->crend (), 
-                                    [c] ( charT val ) { return traits::eq ( c, val ); } );
-#endif
             return iter == this->crend () ? npos : reverse_distance ( this->crbegin (), iter );
             }
         
