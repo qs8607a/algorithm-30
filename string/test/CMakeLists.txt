@@ -2,7 +2,14 @@
 # Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-boost_add_multiple_tests(
+include(Ryppl)
+include(RypplTestSuite)
+
+ryppl_find_and_use_package(BoostCore)
+ryppl_find_and_use_package(BoostTest)
+ryppl_find_and_use_package(BoostRegex)
+
+ryppl_test_suite(
   RUN
     trim_test.cpp
     conv_test.cpp
@@ -12,12 +19,12 @@ boost_add_multiple_tests(
     join_test.cpp
     replace_test.cpp
     find_format_test.cpp
-)
+  )
 
-boost_add_test(
-  regex_test
-  LINK
-    regex_test.cpp 
-  LINK_BOOST_LIBRARIES
-    regex
-)
+ryppl_test_suite(
+  RUN
+    regex_test.cpp
+
+  LINK_LIBRARIES
+    boost_regex
+  )
