@@ -34,14 +34,16 @@ set (StringAlgoHeaders
   ../../include/boost/algorithm/string/trim_all.hpp
   ../../include/boost/algorithm/string/yes_no_type.hpp
   ../../include/boost/algorithm/string/config.hpp
-  )
+)
 
 ryppl_doxygen(string_algo_doxy
   XML
   INPUT
     ${StringAlgoHeaders}
-  )
+)
 
+
+# convert from doxygen XML to to boostbook XML
 xsltproc(
   INPUT
     ${string_algo_doxy_xml}
@@ -51,8 +53,7 @@ xsltproc(
     ${BOOSTBOOK_CATALOG}
   STYLESHEET
     ${BOOSTBOOK_XSL_DIR}/doxygen/doxygen2boostbook.xsl
-  )
-
+)
 
 set(dbk_file ${CMAKE_CURRENT_BINARY_DIR}/string_algo.dbk)
 
@@ -70,6 +71,6 @@ xsltproc(
   PATH
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-  )
+)
 
 ryppl_documentation(${dbk_file})
