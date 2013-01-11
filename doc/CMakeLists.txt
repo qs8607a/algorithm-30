@@ -84,4 +84,4 @@ xslt_docbook_to_html(
     ${manifest_file}
 )
 
-add_to_doc(${manifest_file})
+add_to_doc(${manifest_file} html)
