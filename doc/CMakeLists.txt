@@ -42,7 +42,10 @@ xslt_doxy_to_boostbook(
 
 
 quickbook_to_boostbook(${CMAKE_CURRENT_SOURCE_DIR}/algorithm.qbk algorithm.xml
-  INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}
+  INCLUDES
+    ${CMAKE_CURRENT_SOURCE_DIR}
+  XINCLUDE_BASE
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 set(dbk_file ${CMAKE_CURRENT_BINARY_DIR}/algo.dbk)
@@ -58,6 +61,7 @@ xslt_boostbook_to_docbook(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
+
 
 set(HtmlParameters
   boost.root=../../../..
