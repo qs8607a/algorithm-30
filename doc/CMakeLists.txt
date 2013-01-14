@@ -22,22 +22,16 @@ set (AlgoHeaders
   ../include/boost/algorithm/searching/knuth_morris_pratt.hpp
 )
 
-set(doxy_xml ${CMAKE_CURRENT_BINARY_DIR}/algo_doxy.xml)
-ryppl_doxygen(algo_doxy
-  XML
+
+set(autodoc_bbk_xml ${CMAKE_CURRENT_BINARY_DIR}/autodoc.xml)
+ryppl_src_to_boostbook(
   INPUT
     ${AlgoHeaders}
   OUTPUT
-    ${doxy_xml}
-)
-
-
-# convert from doxygen XML to to boostbook XML
-xslt_doxy_to_boostbook(
-  INPUT
-    ${doxy_xml}
-  OUTPUT
-    ${CMAKE_CURRENT_BINARY_DIR}/autodoc.xml
+    ${autodoc_bbk_xml}
+  DOXYGEN_PARAMETERS
+    "PREDEFINED=\"BOOST_ALGORITHM_DOXYGEN=1\""
+    WARNINGS=YES
 )
 
 
@@ -49,14 +43,13 @@ quickbook_to_boostbook(${CMAKE_CURRENT_SOURCE_DIR}/algorithm.qbk algorithm.xml
 )
 
 set(dbk_file ${CMAKE_CURRENT_BINARY_DIR}/algo.dbk)
-
 xslt_boostbook_to_docbook(
   INPUT
     ${CMAKE_CURRENT_BINARY_DIR}/algorithm.xml
   OUTPUT
     ${dbk_file}
   DEPENDS
-    ${CMAKE_CURRENT_BINARY_DIR}/autodoc.xml
+    ${autodoc_bbk_xml}
   PATH
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
