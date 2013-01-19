@@ -7,10 +7,11 @@ cmake_minimum_required(VERSION 2.8.8)
 add_subdirectory(string)
 add_subdirectory(minmax)
 
-
-project(BoostAlgorithm)
-
 include(Ryppl)
+
+ryppl_project(BoostAlgorithm)
+
+
 
 ryppl_add_doc_subdirectory(doc)
 ryppl_add_test_subdirectory(test)
