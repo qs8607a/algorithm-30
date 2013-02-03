@@ -34,25 +34,14 @@ ryppl_src_to_boostbook(
     WARNINGS=YES
 )
 
-
-quickbook_to_boostbook(${CMAKE_CURRENT_SOURCE_DIR}/algorithm.qbk algorithm.xml
+set(algo_bbk_gen_xml ${CMAKE_CURRENT_BINARY_DIR}/algo_bbk.xml)
+quickbook_to_boostbook(
+  ${CMAKE_CURRENT_SOURCE_DIR}/algorithm.qbk
+  ${algo_bbk_gen_xml}
   INCLUDES
     ${CMAKE_CURRENT_SOURCE_DIR}
   XINCLUDE_BASE
     ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-set(dbk_file ${CMAKE_CURRENT_BINARY_DIR}/algo.dbk)
-xslt_boostbook_to_docbook(
-  INPUT
-    ${CMAKE_CURRENT_BINARY_DIR}/algorithm.xml
-  OUTPUT
-    ${dbk_file}
-  DEPENDS
-    ${autodoc_bbk_xml}
-  PATH
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 
@@ -66,19 +55,12 @@ set(HtmlParameters
   generate.section.toc.level=1
 )
 
-
-set(html_dir "${CMAKE_CURRENT_BINARY_DIR}/html")
-set(manifest_file ${html_dir}/algo_HTML.manifest)
-
-xslt_docbook_to_html(
-  INPUT
-    ${dbk_file}
-  OUTPUT
-    ${html_dir}
-  PARAMETERS
+export_documentation(
+  algorithm
+  BOOSTBOOK
+    ${algo_bbk_gen_xml}
+  DEPENDS
+    ${autodoc_bbk_xml}
+  HTML_PARAMETERS
     ${HtmlParameters}
-  MANIFEST
-    ${manifest_file}
 )
-
-add_to_doc(${manifest_file} html)

@@ -31,20 +31,6 @@ xslt_doxy_to_boostbook(
 )
 
 
-set(dbk_file ${CMAKE_CURRENT_BINARY_DIR}/string_algo.dbk)
-
-xslt_boostbook_to_docbook(
-  INPUT
-    ${CMAKE_CURRENT_SOURCE_DIR}/string_algo.xml
-  OUTPUT
-    ${dbk_file}
-  DEPENDS
-    ${CMAKE_CURRENT_BINARY_DIR}/autodoc.xml
-  PATH
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-)
-
 set(HtmlParameters
   boost.root=../../../..
   chapter.autolabel=0
@@ -54,19 +40,12 @@ set(HtmlParameters
   generate.section.toc.level=1
 )
 
-
-set(html_dir "${CMAKE_CURRENT_BINARY_DIR}/html")
-set(manifest_file ${html_dir}/string_algo_HTML.manifest)
-
-xslt_docbook_to_html(
-  INPUT
-    ${dbk_file}
-  OUTPUT
-    ${html_dir}
-  PARAMETERS
+export_documentation(
+  string_algo
+  BOOSTBOOK
+    ${CMAKE_CURRENT_SOURCE_DIR}/string_algo.xml
+  DEPENDS
+    ${CMAKE_CURRENT_BINARY_DIR}/autodoc.xml
+  HTML_PARAMETERS
     ${HtmlParameters}
-  MANIFEST
-    ${manifest_file}
 )
-
-add_to_doc(${manifest_file} html)
