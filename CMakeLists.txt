@@ -11,8 +11,6 @@ include(Ryppl)
 
 ryppl_project(BoostAlgorithm)
 
-
-
 ryppl_add_doc_subdirectory(doc)
 ryppl_add_test_subdirectory(test)
 
